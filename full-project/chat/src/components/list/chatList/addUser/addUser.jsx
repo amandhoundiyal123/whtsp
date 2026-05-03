@@ -1,7 +1,14 @@
 import "./addUser.css";
 import { useState } from "react";
 
-const API = (import.meta.env.VITE_BACKEND_URL || "http://localhost:5000") + "/api";
+// ✅ FIXED: removed localhost fallback
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+
+if (!BASE_URL) {
+  console.error("❌ VITE_BACKEND_URL is missing");
+}
+
+const API = `${BASE_URL}/api`;
 
 const AddUser = ({ onAdd }) => {
   const [results, setResults] = useState([]);
@@ -17,12 +24,17 @@ const AddUser = ({ onAdd }) => {
       const token = localStorage.getItem("token");
       const res = await fetch(
         `${API}/users/search?username=${encodeURIComponent(query)}`,
-        { headers: { Authorization: `Bearer ${token}` } }
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
+
       const data = await res.json();
       setResults(Array.isArray(data) ? data : []);
-    } catch {
-      console.error("Search failed");
+    } catch (err) {
+      console.error("Search failed:", err);
     } finally {
       setLoading(false);
     }
