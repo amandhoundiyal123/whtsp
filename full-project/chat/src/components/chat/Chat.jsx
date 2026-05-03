@@ -3,7 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import EmojiPicker from "emoji-picker-react";
 import socket from "../../lib/socket";
 
-const API = (import.meta.env.VITE_BACKEND_URL || "http://localhost:5000") + "/api";
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+const API = `${BASE_URL}/api`;
 
 const Chat = ({ currentUser, selectedUser }) => {
   const [open, setOpen] = useState(false);

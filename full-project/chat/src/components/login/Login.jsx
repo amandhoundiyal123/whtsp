@@ -2,7 +2,8 @@ import { toast } from "react-toastify";
 import "./login.css";
 import { useState } from "react";
 
-const API = (import.meta.env.VITE_BACKEND_URL || "http://localhost:5000") + "/api";
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+const API = `${BASE_URL}/api`;
 
 const Login = ({ onLogin }) => {
   const [avatar, setAvatar] = useState({ file: null, url: "" });
